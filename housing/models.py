@@ -7,7 +7,6 @@ from math import *
 
 # Create your models here.
 
-
 class House(models.Model):
     name = models.CharField(max_length=32,)
     location = models.CharField(max_length=128, blank=True)
@@ -34,3 +33,4 @@ class House(models.Model):
                 distance = Distance(house_id = self, department_id=department_item, distance=gap)
                 distance.save()
 
+    

@@ -22,4 +22,4 @@ class Department(models.Model):
 	            gap = math.sqrt((self.latitude - house_item.latitude)*(self.latitude - house_item.latitude) + (self.longitude - house_item.longitude)*(self.longitude - house_item.longitude))
 	            distance = Distance(house_id = house_item, department_id = self, distance = gap)
 	            distance.save()    
-	
+	 
