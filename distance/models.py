@@ -7,7 +7,6 @@ from department.models import Department
 
 # Create your models here.
 
-
 class Distance(models.Model):
     house_id = models.ForeignKey(House, blank=False, null=False, related_name='distance', on_delete=models.CASCADE)
     department_id = models.ForeignKey(Department, blank=False, null=False, related_name='distance', on_delete=models.CASCADE)

@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from math import *
+import math
 # Create your models here.
 
 class Department(models.Model):
