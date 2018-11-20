@@ -9,4 +9,6 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'location',
+            'latitude',
+            'longitude'
         )

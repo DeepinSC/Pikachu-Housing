@@ -20,10 +20,10 @@
         <section class="content">
           <v-layout row justify-space-between>
             <v-flex md3>
-              <h1 class="detailTitle">{{house.name}}</h1>
+              <h2 class="detailTitle">{{house.name}}</h2>
             </v-flex>
             <v-flex md3 class="text-xs-right">
-              <HouseEditModal :detail="house"></HouseEditModal>
+              <HouseEditModal :detail="house" v-show="authenticated"></HouseEditModal>
             </v-flex>
           </v-layout>
           <v-divider></v-divider>
@@ -34,7 +34,12 @@
               </div>
             </div>
             <v-divider> </v-divider>
-            <v-img :src="house.cover_img" style="margin-top: 10px"></v-img>
+            <el-carousel autoplay=false trigger="click" height="700px" interval="6000">
+              <el-carousel-item  v-for="img in house.imgs_url" :key="item">
+                <v-img :src="house.cover_img + img" style="margin-top: 10px"></v-img>
+              </el-carousel-item>
+            </el-carousel>
+
           </v-flex>
           <v-flex class="mt-4">
             <div v-html="markdownContent(house.description)" id="mdeditor"></div>
@@ -74,7 +79,8 @@ export default {
     this.$store.dispatch('house/getHouseDetailObj',this.$route.params.id)
   },
   computed: mapState({
-    house: state => state.house.detail
+    house: state => state.house.detail,
+    authenticated: state => state.user.detail.id !== -1,
   }),
   data: () => {
     return {
@@ -113,7 +119,7 @@ export default {
 .content {
   padding: 16px;
   .detailTitle {
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 

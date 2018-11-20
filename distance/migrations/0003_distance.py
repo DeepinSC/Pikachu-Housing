@@ -7,8 +7,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('housing', '0007_house_provider'),
-        ('department', '__first__'),
+        ('housing', '0001_initial'),
+        ('department', '0001_initial'),
         ('distance', '0002_auto_20181107_2355'),
     ]
 

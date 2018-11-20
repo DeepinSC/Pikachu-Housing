@@ -13,5 +13,8 @@ class HouseSerializer(serializers.ModelSerializer):
             'cover_img',
             'types',
             'description',
-            'imgs',
+            'imgs_url',
+            'latitude',
+            'longitude',
+            'provider'
         )
