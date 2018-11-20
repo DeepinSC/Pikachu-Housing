@@ -1,1 +1,1 @@
-{"name": "Please Select Your Suite", "location": "Location: 709 S Wright St, Champaign, IL, 61820, US", "price": "Available Immediately", "imgs_url": [], "types": "Size: Efficiency ", "description": "", "provider": "jsmliving"}
+{"name": "Please Select Your Suite", "location": "Location: 709 S Wright St, Champaign, IL, 61820, US", "price": -1, "imgs_url": [], "types": "Size: Efficiency ", "description": "", "provider": "jsmliving"}

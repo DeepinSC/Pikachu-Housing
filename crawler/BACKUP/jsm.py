@@ -81,7 +81,18 @@ def findImage(url, domain, i):
 		return;
 	print(apt_info)
 	#"Please select your suite" does not have pictures
-	write_file(file_name,write_to_json(apt_info,apt_address,apt_stat[1],img_list,apt_stat[0],apt_detail,"jsmliving"))
+	apt_price = apt_stat[1].replace("$","")
+	if "," in apt_price:
+		apt_price = apt_price.replace(",","")
+	apt_price = apt_price[:4]
+	if " " in apt_price:
+		apt_price = apt_price.replace(" ","")
+	if apt_price.isdigit() == True:
+		apt_price = int(apt_price)
+	else:
+		apt_price = int("-1")
+	#print(write_to_json(apt_info,apt_address,apt_price,img_list,apt_stat[0],apt_detail,"jsmliving"))
+	write_file(file_name,write_to_json(apt_info,apt_address,apt_price,img_list,apt_stat[0],apt_detail,"jsmliving"))
 
 
 #url = "https://apartments.jsmliving.com/apartments/?unit_type_id=13"

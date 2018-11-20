@@ -1,1 +1,1 @@
-{"name": "OTHER", "location": "Location: 1512 N Neil St, Champaign, IL, 61820, US", "price": "Available Immediately", "imgs_url": [], "types": "Size: Efficiency ", "description": "", "provider": "jsmliving"}
+{"name": "OTHER", "location": "Location: 1512 N Neil St, Champaign, IL, 61820, US", "price": -1, "imgs_url": [], "types": "Size: Efficiency ", "description": "", "provider": "jsmliving"}

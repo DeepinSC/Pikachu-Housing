@@ -1,1 +1,1 @@
-{"name": "Please select your suite", "location": "Location: 601 S 6th St, Champaign, IL, 61820, US", "price": "Available Immediately", "imgs_url": [], "types": "Size: Efficiency ", "description": "", "provider": "jsmliving"}
+{"name": "Please select your suite", "location": "Location: 601 S 6th St, Champaign, IL, 61820, US", "price": -1, "imgs_url": [], "types": "Size: Efficiency ", "description": "", "provider": "jsmliving"}
