@@ -14,7 +14,6 @@ class HouseViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         # queryset = House.objects.all()
-
         # house_id = self.request.query_params.get('id', None)
         # if house_id:
         #     queryset = queryset.filter(id = house_id)
@@ -47,7 +46,6 @@ class HouseViewSet(viewsets.ModelViewSet):
         # maxprice = self.request.query_params.get('maxprice', None)
         # if maxprice:
         #     queryset = queryset.filter(price__lte = maxprice)
-
         # minprice = self.request.query_params.get('minprice', None)
         # if minprice:
         #     queryset = queryset.filter(price__gte = minprice)
@@ -65,17 +63,11 @@ class HouseViewSet(viewsets.ModelViewSet):
         #         distance_qs = distance_qs.filter(distance__lte = distance)
         #         queryset = queryset.filter(id__in = distance_qs)
         
-        # # Print the actual SQL query, for showing the TA about the actual query 
-        # print(queryset.query)
+        # # Print the actual SQL query, for showing the TA about the actual query
+        # # print(queryset.query)
         # return queryset
 
 
-
-
-
-
-
-        # Tried building the actual query instead of using filter, but did not work out
         basequery = "SELECT id FROM housing_house"
 
         query_parts = []
@@ -138,23 +130,7 @@ class HouseViewSet(viewsets.ModelViewSet):
         print(basequery + " AND ".join(query_parts) % tuple(params))
         house_queryset = list(House.objects.raw(basequery + " AND ".join(query_parts) % tuple(params)))
 
-
-        # Get department and distance
-        # department = self.request.query_params.get('department', None)
-        # department_id = None
-        # distance_queryset = None
-        # if department:
-        #     department_ids = Department.objects.filter(name = department).values_list('pk', flat = True)
-        #     if department_ids:
-        #         department_id = department_ids[0]
-
-        # distance = self.request.query_params.get('distance', None)
-        # if department_id and distance:
-        #     query = "SELECT house_id FROM distance_distance WHERE department_id = %s AND distance <= %s" % (department_id, distance)
-        #     query = " AND id IN (%s)" % query
-        #     house_query += query
-
-        # house_queryset = House.objects.filter(id__in=RawSQL(house_query,tuple(params)))
-
         return house_queryset
 
+
+        
