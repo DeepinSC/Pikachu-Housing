@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'provider',
     'distance',
     'users',
+    'like',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -21,7 +21,7 @@
           color="orange darken-3"
           v-model="searchInput"
           append-icon="search"
-          @click:append="() => toRoute('house',{}, {name: searchInput})"
+          @click:append="() => toRoute('/house/',{}, {name: searchInput})"
         ></v-text-field>
       </v-flex>
     </v-layout>

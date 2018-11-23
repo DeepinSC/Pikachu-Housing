@@ -14,7 +14,7 @@
         <v-list-tile-title>Department</v-list-tile-title>
         <v-list-tile-sub-title>Set the department to get the houses nearest to this department</v-list-tile-sub-title>
         <v-list-tile-sub-title class="mt-1">
-          <el-select v-model="filter.department"
+          <el-select  v-show="departments" v-model="filter.department"
                    filterable clearable placeholder="Choose a department" no-data-text="No data" no-match-text="No matching">
             <el-option
               v-for="item in departments"
@@ -33,8 +33,8 @@
         <v-list-tile-title>Provider</v-list-tile-title>
         <v-list-tile-sub-title>Set the provider here</v-list-tile-sub-title>
         <v-list-tile-sub-title class="mt-1">
-           <el-select v-model="filter.provider"
-                   filterable clearable placeholder="Choose a department" no-data-text="No data" no-match-text="No matching">
+           <el-select v-show="providers" v-model="filter.provider"
+                   filterable clearable placeholder="Choose a provider" no-data-text="No data" no-match-text="No matching">
             <el-option
               v-for="item in providers"
               :key="item.id"
@@ -75,8 +75,8 @@
           <v-checkbox v-model="filter.like" color="yellow darken-1"></v-checkbox>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>My favorites</v-list-tile-title>
-          <v-list-tile-sub-title>The houses marked as my favorites.</v-list-tile-sub-title>
+          <v-list-tile-title>Houses I Like</v-list-tile-title>
+          <v-list-tile-sub-title>The houses marked as liked.</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile avatar>
@@ -110,9 +110,9 @@ import { mapState } from 'vuex'
 export default {
   name: "HouseFilter",
   created() {
+    this.filter = this.getFilterFromURL(this.$router.history.current.query)
     this.$store.dispatch('provider/getList')
     this.$store.dispatch('department/getList')
-    this.filter = this.getFilterFromURL(this.$router.history.current.query)
   },
   data: () => {
     return {
@@ -128,7 +128,7 @@ export default {
   },
   computed: mapState({
     providers: state => state.provider.list.results,
-    departments: state => state.department.list,
+    departments: state => state.department.list.results,
   }),
   methods: {
     resetFilter() {
@@ -162,7 +162,6 @@ export default {
         query.minprice = filter.price[0]
         query.maxprice = filter.price[1]
       }
-      console.log(filter.department)
       if (filter.department !== "") query.department = filter.department
       if (filter.provider !== "")query.provider = filter.provider
       if (filter.suggestion) query.suggestion = true

@@ -38,6 +38,5 @@ class House(models.Model):
                 distance = Distance(house_id=self, department_id=department_item, distance=gap)
                 distance.save()
 
-
     
 

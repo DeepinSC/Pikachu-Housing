@@ -36,6 +36,16 @@ const actions = {
     })
   },
 
+  likeHouseList({ commit }, data) {
+    house.likeHouse(data, houses => {
+      // commit('setHouseList', houses)
+    })
+  },
+  likeHouseObj({ commit }, data) {
+    house.likeHouseDetail(data, houses => {
+      commit('setHouseDetail', houses)
+    })
+  },
 }
 
 
