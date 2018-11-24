@@ -121,6 +121,7 @@
 import { mapState } from 'vuex'
 export default {
   name: "SignUpModal",
+
   data: () => {
     return {
       dialogView: false,
@@ -135,7 +136,7 @@ export default {
     }
   },
   computed: mapState({
-    departments: state => state.department.list,
+    departments: state => state.department.list.results,
   }),
   methods: {
     submit (input) {
