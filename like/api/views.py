@@ -17,19 +17,19 @@ class LikeViewSet(viewsets.ModelViewSet):
     serializer_class = LikeSerializer
 
     def create(self, request):
-    	serializer = LikeSerializer(data=request.data)
-    	if not serializer.is_valid():
-    		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = LikeSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         user_id = serializer.data['user_id']
         user = get_object_or_404(User, id=user_id)
         house_id = serializer.data['house_id']
         house = get_object_or_404(House, id=house_id)
-        if Like.objects.filter(user_id = user_id, house_id = house_id).exists():
-        	obj = Like.objects.get(user_id = user_id, house_id = house_id)
-    		obj.has_liked = not obj.has_liked
-    		obj.save()
-        	return Response(status = status.HTTP_201_CREATED)
+        if Like.objects.filter(user_id=user_id, house_id=house_id).exists():
+            obj = Like.objects.get(user_id=user_id, house_id=house_id)
+            obj.has_liked = not obj.has_liked
+            obj.save()
+            return Response(status=status.HTTP_201_CREATED)
         else:
-        	new_like = Like.objects.create(user_id = user, house_id = house, has_liked = True)
-        	new_like.save()
-        	return Response(status = status.HTTP_202_ACCEPTED)
+            new_like = Like.objects.create(user_id=user, house_id=house, has_liked=True)
+            new_like.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
