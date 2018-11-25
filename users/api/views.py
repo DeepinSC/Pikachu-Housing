@@ -42,7 +42,7 @@ class UserViewset(viewsets.ModelViewSet):
     def profile(self, request):
         return Response(self.get_serializer(request.user).data)
 
-    @list_route(methods=['GET'])
+    @list_route(methods=['GET'], permission_classes=[IsAuthenticated,])
     def suggestion(self, request, pk=None):
         # 1:close_to_department
         # 2:cheap_house
@@ -65,15 +65,18 @@ class UserViewset(viewsets.ModelViewSet):
         cheap_close_id = [house.id for house in cheap_close_house_queryset]
         result_queryset = hot_close_house_queryset | hot_cheap_house_queryset | cheap_close_house_queryset
         data = HouseSerializer(result_queryset, many=True).data[:6]
+        #if not serializer.is_valid(raise_exception=True):
+        #    return Response({"Wrong input"})
+        #data = serializer.data[:6]
         for house in data:
             if house["id"] in hot_cheap_id:
-                house["suggested_reason"] = ["Hot house", "Cheap house"]
+                house["suggested_reason"] = ["hot house", "cheap house"]
                 continue
             if house["id"] in hot_close_id:
-                house["suggested_reason"] = ["Hot house", "Close to your department"]
+                house["suggested_reason"] = ["hot house", "close to your department"]
                 continue
             if house["id"] in cheap_close_id:
-                house["suggested_reason"] = ["Cheap house", "Close to your department"]
+                house["suggested_reason"] = ["cheap house", "close to your department"]
         return Response(data)
 
     @list_route(methods=['GET'])

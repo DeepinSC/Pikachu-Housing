@@ -43,4 +43,11 @@ export default {
     const url = `/api/like/`
     provider.post(url, data).then(response => this.getHouseDetail(data.house_id, cb))
   },
+  getSuggestionHouse (cb) {
+    const url = `/api/user/suggestion/`
+    provider.get(url).then(response => {
+      setTimeout(() => cb(response.data) , 100)
+    })
+  },
+
 }

@@ -16,7 +16,6 @@
             </el-breadcrumb>
           </v-breadcrumbs>
         </v-flex>
-        {{houseDetail.has_liked}}
         <section class="content">
           <v-layout row justify-space-between>
             <v-flex md8>

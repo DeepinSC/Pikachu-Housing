@@ -88,6 +88,7 @@ export default {
           message: "You have logged out."
         })
       })
+      this.toRoute("/", {}, {})
     }
   }
 }

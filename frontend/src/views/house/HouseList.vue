@@ -18,7 +18,7 @@
 
           <v-flex md3 v-show="$vuetify.breakpoint.mdAndUp">
             <div class="mr-3" style="position:fixed;">
-              <HouseSuggestionCard :houses="houses.slice(0,3)"></HouseSuggestionCard>
+              <HouseSuggestionCard v-show="suggestion.length > 0"></HouseSuggestionCard>
               <RoommateCard></RoommateCard>
             </div>
           </v-flex>
@@ -88,7 +88,7 @@
                           <v-btn  flat color="green" :to="'/house/'+item.id"><v-icon>details</v-icon>Detail</v-btn>
                           <div v-show="authenticated">
                             <v-btn flat color="orange" @click="handleLike(item,userDetail)"><v-icon>{{item.has_liked ? "star" : "star_border"}}
-                            </v-icon>Likes: {{item.like_count ? item.like_count : 0}}</v-btn>
+                            </v-icon>Likes: {{item.like_count}}</v-btn>
                           </div>
                           <div v-show="authenticated">
                             <el-popover trigger="click" placement="top" v-model="item.popover">
@@ -175,6 +175,7 @@ export default {
     },
     authenticated: state => state.user.detail.id !== -1,
     userDetail: state => state.user.detail,
+    suggestion: state => state.house.suggestion,
   }),
   methods: {
     deleteHouse: function (id) { // No arrow function here...
@@ -193,10 +194,10 @@ export default {
       let data = {house_id: house.id, user_id: user.id}
       this.$store.dispatch('house/likeHouseList',data).then(() => {
         house.has_liked = !house.has_liked
-        if(house.like_count) {
-          if(house.has_liked) house.like_count -= 1
-          else house.like_count += 1
-        }
+        console.log(house.has_liked,  house.like_count)
+
+        if(house.has_liked) house.like_count += 1
+        else house.like_count -= 1
 
       })
     }

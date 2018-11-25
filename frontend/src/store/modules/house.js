@@ -3,6 +3,7 @@ import house from '../../api/house'
 const state = {
   list: [],
   detail: {},
+  suggestion: [{name: "Loading", id: "Loading", price:"Loading"}],
 }
 
 const getters = {}
@@ -46,6 +47,11 @@ const actions = {
       commit('setHouseDetail', houses)
     })
   },
+  getSuggestions({ commit }) {
+    house.getSuggestionHouse(houses => {
+      commit('setSuggestions', houses)
+    })
+  }
 }
 
 
@@ -55,6 +61,9 @@ const mutations = {
   },
   setHouseDetail(state, house) {
     state.detail = house
+  },
+  setSuggestions(state, houses) {
+    state.suggestion = houses
   }
 }
 

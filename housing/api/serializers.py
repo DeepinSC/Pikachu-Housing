@@ -32,7 +32,7 @@ class HouseSerializer(serializers.ModelSerializer):
 
     def get_has_liked(self, obj):
         request = self.context.get("request")
-        if not request.user.is_authenticated():
+        if not request or not request.user.is_authenticated():
             return False
         else:
             user_id = request.user
