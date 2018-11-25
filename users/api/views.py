@@ -12,6 +12,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import login as django_login, authenticate, logout as django_logout
 from django.utils import timezone
 from department.models import Department
+from housing.models import House
+from housing.api.serializers import HouseSerializer
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
@@ -39,6 +41,40 @@ class UserViewset(viewsets.ModelViewSet):
     @list_route(methods=['GET'])
     def profile(self, request):
         return Response(self.get_serializer(request.user).data)
+
+    @list_route(methods=['GET'])
+    def suggestion(self, request, pk=None):
+        # 1:close_to_department
+        # 2:cheap_house
+        # 3:hot_house
+        user = request.user
+        if user.profile:
+            closest_house_query = 'closest_department_float = %s' % user.profile.department.id
+        else:
+            closest_house_query = 'id = -1'
+        cheap_house_query = 'price < 600'
+        hot_house_query = 'housing_house.id IN (SELECT housing_house.id FROM housing_house JOIN like_like ON housing_house.id = like_like.house_id_id GROUP BY housing_house.id HAVING count(*) >=3)'
+        hot_house_queryset = House.objects.extra(where=[hot_house_query])
+        cheap_house_queryset = House.objects.extra(where=[cheap_house_query])
+        closest_house_queryset = House.objects.extra(where=[closest_house_query])
+        hot_cheap_house_queryset = hot_house_queryset & cheap_house_queryset
+        hot_cheap_id = [house.id for house in hot_cheap_house_queryset]
+        hot_close_house_queryset = hot_house_queryset & closest_house_queryset
+        hot_close_id = [house.id for house in hot_close_house_queryset]
+        cheap_close_house_queryset = cheap_house_queryset & closest_house_queryset
+        cheap_close_id = [house.id for house in cheap_close_house_queryset]
+        result_queryset = hot_close_house_queryset | hot_cheap_house_queryset | cheap_close_house_queryset
+        data = HouseSerializer(result_queryset, many=True).data[:6]
+        for house in data:
+            if house["id"] in hot_cheap_id:
+                house["suggested_reason"] = ["Hot house", "Cheap house"]
+                continue
+            if house["id"] in hot_close_id:
+                house["suggested_reason"] = ["Hot house", "Close to your department"]
+                continue
+            if house["id"] in cheap_close_id:
+                house["suggested_reason"] = ["Cheap house", "Close to your department"]
+        return Response(data)
 
     @list_route(methods=['GET'])
     def logout(self, request):

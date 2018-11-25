@@ -17,6 +17,7 @@ class House(models.Model):
     imgs_url = ArrayField(models.CharField(max_length=512, blank=True), size=25, default=[], blank=True)
     latitude = models.FloatField(blank=True, null=True, default=0, validators=[MaxValueValidator(90), MinValueValidator(-90)])
     longitude = models.FloatField(blank=True, null=True, default=0, validators=[MaxValueValidator(180), MinValueValidator(-180)])
+    closest_department_float = models.FloatField(blank=True, null=True, default=-1)
 
     def __str__(self):
         return str(self.id) + ' (' + self.name + ')'

@@ -10,5 +10,5 @@ class DepartmentSerializer(serializers.ModelSerializer):
             'name',
             'location',
             'latitude',
-            'longitude'
+            'longitude',
         )

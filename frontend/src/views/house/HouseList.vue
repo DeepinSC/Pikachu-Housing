@@ -63,18 +63,32 @@
                       </v-flex>
                       <v-flex md9 xs12>
                         <v-card-title class="pb-2">
-                          <div class="headline">{{item.name}}</div>
+                          <div class="headline">{{item.name === invalidName ? "Anonymous house" : item.name}}</div>
                           <br>
                         </v-card-title>
                           <v-card-text class="pt-2" >
-                            <h4>Price: ${{item.price}}</h4>
+                            <h4>Price:
+                              <span v-if="item.price !== invalidPrice" style="color: orange">${{item.price}}</span>
+                              <span v-else style="color: grey">Unavailable</span>
+                            </h4>
+                            <div v-show="item.closest_department">
+                              <span>Closest Department:
+                                <span style="color: orangered">{{item.closest_department.name}}</span>
+                              </span>
+                              <br>
+                              <span>Distance:
+                                <span style="color: dodgerblue">{{item.closest_department.distance.toFixed(2)}} km</span>
+                              </span>
+                            </div>
+                            <br>
                             <span class="grey--text">Location: {{item.location}}</span><br>
                             <span class="grey--text">{{item.description.slice(0,200)}}...</span>
                           </v-card-text>
                         <v-card-actions>
                           <v-btn  flat color="green" :to="'/house/'+item.id"><v-icon>details</v-icon>Detail</v-btn>
                           <div v-show="authenticated">
-                            <v-btn  flat color="orange"><v-icon>star_border</v-icon>Like</v-btn>
+                            <v-btn flat color="orange" @click="handleLike(item,userDetail)"><v-icon>{{item.has_liked ? "star" : "star_border"}}
+                            </v-icon>Likes: {{item.like_count ? item.like_count : 0}}</v-btn>
                           </div>
                           <div v-show="authenticated">
                             <el-popover trigger="click" placement="top" v-model="item.popover">
@@ -107,7 +121,7 @@
               <el-pagination
                 layout="prev, pager, next"
                 :total="totalNums"
-                :currentPage="this.$route.query.page ? this.$route.query.page : 1"
+                :currentPage="this.$route.query.page ? parseInt(this.$route.query.page) : 1"
                 @current-change="(page) => toRoute('',{}, {page: page})"
                 @next-click="(page) => toRoute('',{}, {page: page})"
                 @prev-click="(page) => toRoute('',{}, {page: page})"
@@ -141,21 +155,26 @@ export default {
       sortMethods: [
         {name: "Price Low to High", param: {srule: "price-low-to-high"}},
         {name: "Price High to Low", param: {srule: "price-high-to-low"}},
-        {name: "Favorites High to Low", param: {srule:"favorites-high-to-low"}},
-        {name: "Favorites Low to High", param: {srule:"favorites-low-to-high"}},
+        {name: "Likes High to Low", param: {srule:"like-high-to-low"}},
+        {name: "Likes Low to High", param: {srule:"like-low-to-high"}},
         {name: "House name A - Z", param: {srule:"name-ascending"}},
         {name: "House name Z - A", param: {srule:"name-descending"}},
-      ]
+      ],
+      invalidName: 'Please Select Your Suite',
+      invalidPrice: 9999,
     }
   },
   computed: mapState({
     totalNums: state => state.house.list.count,
     houses: state => state.house.list.results,
+    providers: state => state.provider.list.results,
+    departments: state => state.department.list,
     currentPage: () => {
       const query = this.$route.query
-      return query.page ? query.page : 1
+      return query.page ? parseInt(query.page) : 1
     },
     authenticated: state => state.user.detail.id !== -1,
+    userDetail: state => state.user.detail,
   }),
   methods: {
     deleteHouse: function (id) { // No arrow function here...
@@ -170,6 +189,17 @@ export default {
     toRoute (rname, rparams = {}, query = {}) {
       this.$router.push({path: rname, params: rparams, query: query})
     },
+    handleLike(house,user) {
+      let data = {house_id: house.id, user_id: user.id}
+      this.$store.dispatch('house/likeHouseList',data).then(() => {
+        house.has_liked = !house.has_liked
+        if(house.like_count) {
+          if(house.has_liked) house.like_count -= 1
+          else house.like_count += 1
+        }
+
+      })
+    }
   }
 }
 </script>
