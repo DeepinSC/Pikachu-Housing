@@ -10,6 +10,7 @@ class HouseSerializer(serializers.ModelSerializer):
 
     closest_department = serializers.SerializerMethodField()
     like_count = serializers.SerializerMethodField()
+    user_like = serializers.SerializerMethodField()
 
     def get_closest_department(self, obj):
 
@@ -22,8 +23,16 @@ class HouseSerializer(serializers.ModelSerializer):
             return serialized_data
 
     def get_like_count(self, obj):
-        count = Like.objects.filter(house_id = obj.id).count()
+        count = Like.objects.filter(house_id = obj.id, has_liked = True).count()
         return count
+
+    def get_user_like(self, obj):
+        request = self.context.get("request")
+        if (request.auth is None):
+            return False
+        else:
+            user_id = request.user
+            return Like.objects.filter(user_id = user_id, house_id = obj.id, has_liked = True).exist()
 
     class Meta:
         model = House
@@ -41,4 +50,5 @@ class HouseSerializer(serializers.ModelSerializer):
             'provider',
             'closest_department',
             'like_count',
+            'user_like'
         )
