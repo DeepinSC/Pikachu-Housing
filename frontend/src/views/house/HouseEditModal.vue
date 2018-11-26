@@ -51,7 +51,6 @@
                     name="imgs_url"
                     label="Image url"
                     v-model="detail.imgs_url"
-                    v-validate="'url'"
                     :error-messages="errors.collect('imgs_url')"
                     data-vv-name="imgs_url"
                   ></v-text-field>

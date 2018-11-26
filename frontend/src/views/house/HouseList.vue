@@ -18,7 +18,7 @@
 
           <v-flex md3 v-show="$vuetify.breakpoint.mdAndUp">
             <div class="mr-3" style="position:fixed;">
-              <HouseSuggestionCard v-show="suggestion.length > 0"></HouseSuggestionCard>
+              <HouseSuggestionCard></HouseSuggestionCard>
               <RoommateCard></RoommateCard>
             </div>
           </v-flex>
@@ -71,9 +71,9 @@
                               <span v-if="item.price !== invalidPrice" style="color: orange">${{item.price}}</span>
                               <span v-else style="color: grey">Unavailable</span>
                             </h4>
-                            <div v-show="item.closest_department">
+                            <div v-if="item.closest_department">
                               <span>Closest Department:
-                                <span style="color: orangered">{{item.closest_department.name}}</span>
+                                <span v-if="item.closest_department" style="color: orangered">{{item.closest_department.name}}</span>
                               </span>
                               <br>
                               <span>Distance:
@@ -106,10 +106,10 @@
                   </v-card>
                 </v-hover>
               </v-flex>
-              <v-flex v-else xs12 md12>
-                <v-layout justify-align-center justify-center>
-                    <h1 class="display-2 mt-5">No house found <v-icon style="font-size:60px">sentiment_very_dissatisfied</v-icon></h1>
-                </v-layout>
+              <v-flex v-if="!houses" xs12 md12>
+                 <el-table
+                  v-loading="true" style="width: 100%" empty-text="Loading">
+                 </el-table>
               </v-flex>
 
             </v-layout>
@@ -186,6 +186,7 @@ export default {
           message: "Your chosen house has been deleted."
         })
       })
+      this.$router.push("/")
     },
     toRoute (rname, rparams = {}, query = {}) {
       this.$router.push({path: rname, params: rparams, query: query})

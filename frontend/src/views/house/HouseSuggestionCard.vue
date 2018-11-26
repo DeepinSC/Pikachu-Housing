@@ -6,7 +6,7 @@
     <v-card-text>
       <div>Based on your information, our algorithm will suggest best houses to you. Have a try!</div>
     </v-card-text>
-    <v-expansion-panel dark expand>
+    <v-expansion-panel v-if="houses" dark expand>
       <v-expansion-panel-content  class="white--text" v-for="(house,i) in houses" :key="i">
         <div color="green" slot="header">{{house.name}}</div>
         <div>
@@ -25,6 +25,11 @@
         </div>
       </v-expansion-panel-content>
     </v-expansion-panel>
+    <div v-if="!houses">
+      <el-table
+        v-loading="true" style="width: 100%" empty-text="Loading">
+      </el-table>
+    </div>
   </v-card>
 </template>
 
@@ -43,7 +48,6 @@ export default {
   data: () => {
     return {
       activeNames: "",
-      // houses: [],
     }
   },
   methods: {

@@ -80,6 +80,34 @@ class UserViewset(viewsets.ModelViewSet):
         return Response(data)
 
     @list_route(methods=['GET'])
+    def roommate(self, request):
+
+        '''
+        SELECT user_id FROM users_userprofile WHERE
+        department_id = 34 AND
+        user_id != 1 AND
+        (SELECT count(*) FROM ((SELECT house_id_id FROM like_like WHERE user_id_id = user_id AND has_liked = TRUE)
+          INTERSECT
+        (SELECT house_id_id FROM like_like WHERE user_id_id = 1 AND has_liked = TRUE)) as same) >= 3;
+        '''
+
+        user = request.user
+        if not user.profile:
+            return None
+        user_department_id = user.profile.department_id
+        roommate_query = 'SELECT * FROM users_userprofile WHERE department_id = %s AND user_id != %s AND' % (user_department_id, user.id)
+        user_like_query = '(SELECT house_id_id FROM like_like WHERE user_id_id = %s AND has_liked = TRUE)' % user.id
+        roommate_like_query = '(SELECT house_id_id FROM like_like WHERE user_id_id = user_id AND has_liked = TRUE)'
+        judge_query = '(SELECT count(*) FROM (%s INTERSECT %s) AS same) >= 3' % (user_like_query, roommate_like_query)
+        roommate_query = roommate_query + judge_query
+        user_queryset = UserProfile.objects.raw(roommate_query)
+        print(user_like_query)
+        return Response([UserSerializer(profile.user).data for profile in user_queryset])
+
+
+
+
+    @list_route(methods=['GET'])
     def logout(self, request):
         django_logout(request)
         return Response({'next': '/'}, status=status.HTTP_200_OK)

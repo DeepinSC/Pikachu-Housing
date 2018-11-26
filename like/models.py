@@ -11,4 +11,4 @@ class Like(models.Model):
     has_liked = models.BooleanField(default=True)
 
     def __str__(self):
-        return "User " + self.user_id + " liked house " + self.house_id + self.has_liked
+        return "User " + self.user_id.username + " liked house " + self.house_id.name + str(self.has_liked)

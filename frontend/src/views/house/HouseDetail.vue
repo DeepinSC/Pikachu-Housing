@@ -46,7 +46,7 @@
             <div>
               <el-tag style="font-size: 15px">Price: {{houseDetail.price === invalidPrice ? "Unavailable" : houseDetail.price}}</el-tag>
               <el-tag type="info"><span class="subtitle">Location: {{houseDetail.location}}</span></el-tag>
-              <span v-show="houseDetail.closest_department">
+              <span v-if="houseDetail.closest_department">
                 <el-tag style="font-size: 15px" type="success"><span>Department: {{houseDetail.closest_department.name}}</span></el-tag>
                 <el-tag style="font-size: 15px" type="danger"><span>Distance: {{houseDetail.closest_department.distance.toFixed(2)}} km</span></el-tag>
               </span>
