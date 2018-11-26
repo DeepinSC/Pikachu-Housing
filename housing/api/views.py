@@ -72,4 +72,14 @@ class HouseViewSet(viewsets.ModelViewSet):
         sql = "housing_house.id IN (" + (basequery + " AND ".join(query_parts) % tuple(params)) + ")"
         house_queryset = House.objects.extra(where=[sql])
 
+        srule = self.request.query_params.get('srule', None)
+        if srule=='price-low-to-high':
+            house_queryset = house_queryset.order_by('price')
+        if srule=='price-high-to-low':
+            house_queryset = house_queryset.order_by('-price')
+        if srule=='name-ascending':
+            house_queryset = house_queryset.order_by('name') 
+        if srule=='name-descending':
+            house_queryset = house_queryset.order_by('-name')    
+
         return house_queryset
