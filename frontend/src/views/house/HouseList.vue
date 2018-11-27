@@ -18,8 +18,8 @@
 
           <v-flex md3 v-show="$vuetify.breakpoint.mdAndUp">
             <div class="mr-3" style="position:fixed;">
-              <HouseSuggestionCard></HouseSuggestionCard>
-              <RoommateCard></RoommateCard>
+              <HouseSuggestionCard v-show="authenticated"></HouseSuggestionCard>
+              <RoommateCard v-show="authenticated"></RoommateCard>
             </div>
           </v-flex>
 
@@ -28,15 +28,14 @@
               <v-flex md3>
                 <h1>House list</h1>
               </v-flex>
-              <v-flex md5 class="text-xs-right list-header-bar">
+              <v-flex md7 class="text-xs-right list-header-bar">
                 <HouseCreateModal v-show="authenticated"></HouseCreateModal>
                 <HouseFilter></HouseFilter>
-
                 <el-dropdown trigger="click">
                   <v-btn flat><v-icon>sort</v-icon>Sort</v-btn>
                   <el-dropdown-menu slot="dropdown">
                     <div v-for="(key,i) in sortMethods" :key="i">
-                      <div @click="() => toRoute('',{},key.param)">
+                      <div @click="() => toQuery(key.param.srule, 'srule')">
                         <el-dropdown-item >{{key.name}}</el-dropdown-item>
                       </div>
                     </div>
@@ -52,7 +51,7 @@
             <v-layout row wrap>
 
 
-              <v-flex v-if="houses.length > 0" v-for="item in houses" v-bind="{ [`xs${item.flex}`]: true }" :key="item.id" xs12 md12>
+              <v-flex v-if="houses && houses.length > 0" v-for="item in houses" v-bind="{ [`xs${item.flex}`]: true }" :key="item.id" xs12 md12>
                 <v-hover>
                   <v-card class="mt-3" slot-scope="{ hover }" :class="`elevation-${hover ? 6 : 2}`">
                     <v-layout row>
@@ -107,24 +106,27 @@
                 </v-hover>
               </v-flex>
               <v-flex v-if="!houses" xs12 md12>
-                 <el-table
-                  v-loading="true" style="width: 100%" empty-text="Loading">
+                 <el-table v-loading="true" style="width: 100%" empty-text="Loading">
                  </el-table>
               </v-flex>
-
+              <v-flex v-if="houses && houses.length == 0" xs12 md12>
+                <v-layout justify-align-center justify-center>
+                    <h1 class="display-2 mt-5">No matching house <v-icon style="font-size:60px">sentiment_very_dissatisfied</v-icon></h1>
+                </v-layout>
+              </v-flex>
             </v-layout>
           </v-flex>
 
         </v-layout>
         <v-flex md12 class="mt-3">
-          <div class="text-xs-center">
+          <div class="text-xs-center" v-if="houses && houses.length > 0">
               <el-pagination
                 layout="prev, pager, next"
                 :total="totalNums"
                 :currentPage="this.$route.query.page ? parseInt(this.$route.query.page) : 1"
-                @current-change="(page) => toRoute('',{}, {page: page})"
-                @next-click="(page) => toRoute('',{}, {page: page})"
-                @prev-click="(page) => toRoute('',{}, {page: page})"
+                @current-change="(page) => toQuery(page,'page')"
+                @next-click="(page) => toQuery(page,'page')"
+                @prev-click="(page) => toQuery(page,'page')"
               >
               </el-pagination>
             </div>
@@ -155,8 +157,6 @@ export default {
       sortMethods: [
         {name: "Price Low to High", param: {srule: "price-low-to-high"}},
         {name: "Price High to Low", param: {srule: "price-high-to-low"}},
-        {name: "Likes High to Low", param: {srule:"like-high-to-low"}},
-        {name: "Likes Low to High", param: {srule:"like-low-to-high"}},
         {name: "House name A - Z", param: {srule:"name-ascending"}},
         {name: "House name Z - A", param: {srule:"name-descending"}},
       ],
@@ -189,19 +189,26 @@ export default {
       this.$router.push("/")
     },
     toRoute (rname, rparams = {}, query = {}) {
-      this.$router.push({path: rname, params: rparams, query: query})
+      this.$router.push({path: rname, params: rparams, query: query, replace:true})
     },
     handleLike(house,user) {
       let data = {house_id: house.id, user_id: user.id}
       this.$store.dispatch('house/likeHouseList',data).then(() => {
         house.has_liked = !house.has_liked
-        console.log(house.has_liked,  house.like_count)
 
         if(house.has_liked) house.like_count += 1
         else house.like_count -= 1
 
       })
-    }
+    },
+    toQuery(value, methodName) {
+      let query = {}
+      for (let k in this.$route.query) {
+        query[k] = this.$route.query[k]
+      }
+      query[methodName] = value
+      this.toRoute('',{}, query)
+    },
   }
 }
 </script>

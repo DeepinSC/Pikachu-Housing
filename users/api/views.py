@@ -6,10 +6,10 @@ from users.api.serializers import UserSerializer, UserProfileSerializer, SigninS
 from users.api.service import UserService
 from users.api.permissions import UserPermission
 from rest_framework import permissions
-from rest_framework.decorators import detail_route, list_route
+from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from django.contrib.auth import login as django_login, authenticate, logout as django_logout
+from django.contrib.auth import login as django_login, logout as django_logout
 from django.utils import timezone
 from department.models import Department
 from housing.models import House
@@ -65,9 +65,6 @@ class UserViewset(viewsets.ModelViewSet):
         cheap_close_id = [house.id for house in cheap_close_house_queryset]
         result_queryset = hot_close_house_queryset | hot_cheap_house_queryset | cheap_close_house_queryset
         data = HouseSerializer(result_queryset, many=True).data[:6]
-        #if not serializer.is_valid(raise_exception=True):
-        #    return Response({"Wrong input"})
-        #data = serializer.data[:6]
         for house in data:
             if house["id"] in hot_cheap_id:
                 house["suggested_reason"] = ["hot house", "cheap house"]

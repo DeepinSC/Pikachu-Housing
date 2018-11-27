@@ -49,5 +49,10 @@ export default {
       setTimeout(() => cb(response.data) , 100)
     })
   },
-
+  getRoommate (cb) {
+    const url = `/api/user/roommate/`
+    provider.get(url).then(response => {
+      setTimeout(() => cb(response.data) , 100)
+    })
+  },
 }

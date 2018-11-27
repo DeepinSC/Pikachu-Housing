@@ -16,7 +16,7 @@
                   <v-flex xs12
                     align-center justify-center text-xs-center>
                     <v-avatar tile="tile" style="cursor: pointer">
-                      <img src="../assets/pikachu.svg" alt="avatar" @click.stop="toRoute('home')">
+                      <img src="../assets/pikachu.svg" alt="avatar" @click.stop="toRoute('/')">
                     </v-avatar>
                   </v-flex>
                   <v-flex xs12 align-center justify-center text-xs-center headline>
@@ -66,9 +66,9 @@ export default {
   data () {
     return {
       items: [
-        { icon: 'dashboard', text: 'Home', link: 'home' },
-        { icon: 'home', text: 'House', link: 'house' },
-        { icon: 'person', text: 'About', link: 'about' }
+        { icon: 'dashboard', text: 'Home', link: '/' },
+        { icon: 'home', text: 'House', link: '/house/' },
+        { icon: 'person', text: 'About Us', link: '/about/' }
       ]
     }
   },

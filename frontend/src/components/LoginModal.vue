@@ -107,6 +107,7 @@ export default {
         this.dialogView = false
       })
     },
+
     login: function (input) { // No arrow function here...
       this.$store.dispatch('user/login',input).then(() => {
       })
@@ -125,7 +126,10 @@ export default {
         type: "success",
         message: "You have login successfully."
       })
+      this.$router.push("/")
+      window.location.reload()
       },2000)
+
 
     }
   }

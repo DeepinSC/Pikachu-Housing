@@ -23,7 +23,7 @@
             </v-flex>
             <v-flex md3 class="text-xs-right">
               <HouseEditModal :detail="houseDetail" v-show="authenticated"></HouseEditModal>
-              <v-btn icon flat color="yellow darken-2" @click="handleLike(houseDetail,userDetail)">
+              <v-btn icon flat color="yellow darken-2" @click="handleLike(houseDetail,userDetail)" v-show="authenticated">
                 <v-icon v-if="houseDetail.has_liked">star</v-icon>
                 <v-icon v-else>star_border</v-icon>
               </v-btn>
@@ -104,7 +104,7 @@ export default {
         {
           text: 'House list',
           disabled: false,
-          to: '/house'
+          to: '/house/'
         },
         {
           text: 'Detail',

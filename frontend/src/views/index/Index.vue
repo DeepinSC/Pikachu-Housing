@@ -41,7 +41,7 @@
           <v-flex>
             <h1 class="white--text mb-2 display-3 text-s-center">Pikachu-Housing</h1>
             <div class="subheading mb-3 text-xs-center">Let's start now!</div>
-            <v-btn dark large color="yellow darken-3"  to="/house" >Get Started</v-btn>
+            <v-btn dark large color="yellow darken-3"  @click.stop="$router.push('/house/')" >Get Started</v-btn>
           </v-flex>
         </v-layout>
       </v-parallax>

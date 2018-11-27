@@ -87,8 +87,10 @@ export default {
           type: "success",
           message: "You have logged out."
         })
+        this.$router.push("/")
+        window.location.reload()
       })
-      this.toRoute("/", {}, {})
+
     }
   }
 }

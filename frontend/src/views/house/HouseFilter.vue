@@ -68,7 +68,7 @@
 
     <v-divider></v-divider>
 
-    <v-list three-line subheader>
+    <v-list three-line subheader v-show="authenticated">
       <v-subheader>General</v-subheader>
       <v-list-tile avatar>
         <v-list-tile-action>
@@ -77,15 +77,6 @@
         <v-list-tile-content>
           <v-list-tile-title>Houses I Like</v-list-tile-title>
           <v-list-tile-sub-title>The houses marked as liked.</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile avatar>
-        <v-list-tile-action>
-          <v-checkbox v-model="filter.suggestion" color="yellow darken-1"></v-checkbox>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>Suggestion</v-list-tile-title>
-          <v-list-tile-sub-title>The suggested houses based on our suggestion algorithm.</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -129,15 +120,16 @@ export default {
   computed: mapState({
     providers: state => state.provider.list.results,
     departments: state => state.department.list.results,
+    authenticated: state => state.user.detail.id !== -1,
   }),
   methods: {
     resetFilter() {
+      this.toRoute('', {}, {})
       this.filter  = {
         price: [0,6000],
         department: "",
         provider: "",
         like: false,
-        suggestion: false,
       }
     },
     getFilterFromURL(query) {
@@ -153,23 +145,27 @@ export default {
       filter.department = query.department ? parseInt(query.department) : ""
       filter.provider = query.provider ? parseInt(query.provider) : ""
       filter.like = query.like && true
-      filter.suggestion = query.suggestion && true
+
       return filter
     },
     submit(filter) {
       let query = {}
+      for (let k in this.$route.query) {
+        query[k] = this.$route.query[k]
+      }
       if (filter.price[0] !== 0 || filter.price[1] !== 6000) {
         query.minprice = filter.price[0]
         query.maxprice = filter.price[1]
       }
       if (filter.department !== "") query.department = filter.department
       if (filter.provider !== "")query.provider = filter.provider
-      if (filter.suggestion) query.suggestion = true
       if (filter.like) query.like = true
+
+      // add existing query to the filter
 
       this.toRoute('', {}, query)
 
-      this.dialog = false // todo: route the url
+      this.dialog = false
     },
     toRoute (rname, rparams = {}, query = {}) {
       this.$router.push({path: rname, params: rparams, query: query})

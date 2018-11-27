@@ -1,10 +1,12 @@
 from rest_framework import serializers
 from users.models import UserProfile
+from department.api.serializers import DepartmentSerializer
 from django.contrib.auth.models import User
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
     viewed_house = serializers.SerializerMethodField()
+    department = DepartmentSerializer()
 
     class Meta:
         model = UserProfile
@@ -21,7 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     email = serializers.ReadOnlyField()
     username = serializers.CharField()
-    # username = serializers.SerializerMethodField()
     profile = UserProfileSerializer()
 
     class Meta:

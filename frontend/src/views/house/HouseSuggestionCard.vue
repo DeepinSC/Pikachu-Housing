@@ -1,5 +1,5 @@
 <template>
-  <v-card dark class="white--text mt-3">
+  <v-card dark class="white--text mt-3" v-if="houses.length > 0">
     <v-card-title primary-title>
       <div class="headline">Your House Suggestions</div>
     </v-card-title>
@@ -15,7 +15,7 @@
               <span style="color: yellow">{{house.suggested_reason[1]}}</span></h4>
             <span>Price: {{house.price}}</span>
             <br>
-            <span>Distance to <span style="color: yellow">{{house.closest_department.name}}</span>:
+            <span v-if="house.closest_department">Distance to <span style="color: yellow">{{house.closest_department.name}}</span>:
               {{house.closest_department.distance.toFixed(2)}}km</span>
             <div>{{house.like_count}} users also like this house</div>
             </v-card-text>
