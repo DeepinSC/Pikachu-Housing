@@ -91,8 +91,10 @@ export default {
         this.$router.push("/")
         window.location.reload()
       })
-
-    }
+    },
+    jumpToUrl(url) {
+      window.location.href = url
+    },
   }
 }
 </script>

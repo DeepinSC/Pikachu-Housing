@@ -78,10 +78,12 @@
                               <span>Distance:
                                 <span style="color: dodgerblue">{{item.closest_department.distance.toFixed(2)}} km</span>
                               </span>
+                              <br>
+                              <span>Location: {{item.location}}</span><br>
+                              <span>Provider: <b>{{item.provider.name}}</b></span><br>
+                              <span class="grey--text">{{item.description.slice(0,200)}}...</span>
                             </div>
-                            <br>
-                            <span class="grey--text">Location: {{item.location}}</span><br>
-                            <span class="grey--text">{{item.description.slice(0,200)}}...</span>
+
                           </v-card-text>
                         <v-card-actions>
                           <v-btn  flat color="green" :to="'/house/'+item.id"><v-icon>details</v-icon>Detail</v-btn>
@@ -99,6 +101,10 @@
                               <v-btn flat color="red" slot="reference"><v-icon>close</v-icon>Delete</v-btn>
                             </el-popover>
                           </div>
+                          <div>
+                            <v-btn flat color="blue" @click="jumpToUrl(item.provider.url)"><v-icon>insert_link</v-icon>View site</v-btn>
+                          </div>
+
                         </v-card-actions>
                       </v-flex>
                     </v-layout>
@@ -209,6 +215,9 @@ export default {
       query[methodName] = value
       this.toRoute('',{}, query)
     },
+    jumpToUrl(url) {
+      window.location.href = url
+    }
   }
 }
 </script>

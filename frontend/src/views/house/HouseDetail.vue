@@ -56,6 +56,22 @@
 
           <v-flex class="mt-4">
             <div class="description-font" v-html="markdownContent(houseDetail.description)" id="mdeditor"></div>
+            <v-divider></v-divider>
+          </v-flex>
+          <v-flex class="mt-4">
+            <p class="description-font">Actions: </p>
+            <v-btn  class="white--text yellow darken-2" @click="jumpToUrl(houseDetail.provider.url)">
+              <v-icon>insert_link</v-icon>
+              View site
+            </v-btn>
+            <v-btn color="orange" class="white--text" :href="'mailto:' + houseDetail.provider.email">
+              <v-icon>email</v-icon>
+              Email them
+            </v-btn>
+            <v-btn disabled class="white--text pink">
+              <v-icon>phone</v-icon>
+              Phone: {{houseDetail.provider.phone}}
+            </v-btn>
           </v-flex>
         </section>
 

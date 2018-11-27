@@ -20,7 +20,7 @@
             <div>{{house.like_count}} users also like this house</div>
             </v-card-text>
           <v-card-actions>
-           <v-btn dark :to="'/house/'+house.id">Have a look</v-btn>
+            <v-btn dark :to="'/house/'+house.id"><v-icon>touch_app</v-icon>Have a look</v-btn>
           </v-card-actions>
         </div>
       </v-expansion-panel-content>
