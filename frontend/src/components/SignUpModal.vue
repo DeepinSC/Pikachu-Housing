@@ -154,7 +154,6 @@ export default {
       })
     },
     signup: function (input) { // No arrow function here...
-      console.log(input)
       this.$store.dispatch('user/signup',input).then(() => {
       })
       let store = this.$store

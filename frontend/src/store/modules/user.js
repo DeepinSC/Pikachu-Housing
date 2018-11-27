@@ -28,8 +28,8 @@ const actions = {
     }, e => {state.status = false})
   },
   signup({commit}, data) {
-    user.signup(data, () => {
-      commit('setStatusFailure')
+    user.signup(data, (response) => {
+      commit('setStatusFailure',response)
     },data)
   },
 }
@@ -43,8 +43,9 @@ const mutations = {
     state.detail = {username: "Anonymous User", id: -1}
     state.next = next
   },
-  setStatusFailure(state, user) {
-    state.status = false
+  setStatusFailure(state, response) {
+    if(response.message) state.status = true
+    else state.status = false
   },
 }
 
