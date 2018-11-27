@@ -43,10 +43,19 @@ class UserViewset(viewsets.ModelViewSet):
         return Response(self.get_serializer(request.user).data)
 
     @list_route(methods=['GET'], permission_classes=[IsAuthenticated,])
-    def suggestion(self, request, pk=None):
-        # 1:close_to_department
-        # 2:cheap_house
-        # 3:hot_house
+    def suggestion(self, request):
+
+        """ Advanced function 1 - House Suggestion:
+
+            Sample query:
+            Subquery A, close houses: SELECT * FROM housing_house WHERE closest_department_float = 34 AND id = user.department.id
+            Subquery B, hot houses : SELECT * FROM housing_house WHERE id IN
+                (SELECT housing_house.id FROM housing_house JOIN like_like ON housing_house.id = like_like.house_id_id GROUP BY housing_house.id HAVING count(*) >=3)
+            Subquery C, cheap houses: SELECT * FROM housing_house WHERE price < 600
+
+            Result query(suggested houses fitting 2 or more rules):
+                (A INTERSECT B) UNION (A INTERSECT C) UNION (B INTERSECT C)
+        """
         user = request.user
         if user.profile:
             closest_house_query = 'closest_department_float = %s' % user.profile.department.id
@@ -79,14 +88,17 @@ class UserViewset(viewsets.ModelViewSet):
     @list_route(methods=['GET'])
     def roommate(self, request):
 
-        '''
-        SELECT user_id FROM users_userprofile WHERE
-        department_id = 34 AND
-        user_id != 1 AND
-        (SELECT count(*) FROM ((SELECT house_id_id FROM like_like WHERE user_id_id = user_id AND has_liked = TRUE)
-          INTERSECT
-        (SELECT house_id_id FROM like_like WHERE user_id_id = 1 AND has_liked = TRUE)) as same) >= 3;
-        '''
+        """ Advanced function 2 - Potential Roommates
+            Find 2 users from a same department and have both liked 3 or more same houses.
+
+            Sample query:
+            SELECT user_id FROM users_userprofile WHERE
+            department_id = 34 AND
+            user_id != 1 AND
+            (SELECT count(*) FROM ((SELECT house_id_id FROM like_like WHERE user_id_id = user_id AND has_liked = TRUE)
+              INTERSECT
+            (SELECT house_id_id FROM like_like WHERE user_id_id = 1 AND has_liked = TRUE)) as same) >= 3;
+        """
 
         user = request.user
         if not user.profile:
@@ -98,11 +110,7 @@ class UserViewset(viewsets.ModelViewSet):
         judge_query = '(SELECT count(*) FROM (%s INTERSECT %s) AS same) >= 3' % (user_like_query, roommate_like_query)
         roommate_query = roommate_query + judge_query
         user_queryset = UserProfile.objects.raw(roommate_query)
-        print(user_like_query)
         return Response([UserSerializer(profile.user).data for profile in user_queryset])
-
-
-
 
     @list_route(methods=['GET'])
     def logout(self, request):

@@ -158,8 +158,11 @@ export default {
         query.maxprice = filter.price[1]
       }
       if (filter.department !== "") query.department = filter.department
+      else delete query.department
       if (filter.provider !== "")query.provider = filter.provider
+      else delete query.provider
       if (filter.like) query.like = true
+      else delete query.like
 
       // add existing query to the filter
 

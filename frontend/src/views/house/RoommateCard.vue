@@ -5,7 +5,7 @@
       <v-flex>
         <v-card-title primary-title >
           <div>
-            <div class="headline">Your potential roommate</div>
+            <div class="headline">Your Potential Roommate</div>
             <h3>{{roommate.username}}</h3>
             <div>From {{roommate.profile.department.name}} department</div>
             <div>Email: {{roommate.email}}</div>
