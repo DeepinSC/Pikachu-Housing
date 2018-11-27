@@ -1,10 +1,10 @@
 from django.db import models
 from provider.models import Provider
-import provider.models
 from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from assist import *
 # Create your models here.
+
 
 class House(models.Model):
     name = models.CharField(max_length=128,)

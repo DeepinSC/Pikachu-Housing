@@ -2,11 +2,8 @@ from rest_framework import serializers
 from housing.models import House
 from distance.models import Distance
 from department.models import Department
-from rest_framework.response import Response
-from django.http import JsonResponse
 from department.api.serializers import DepartmentSerializer
 from like.models import Like
-
 
 
 class HouseSerializer(serializers.ModelSerializer):

@@ -14,4 +14,4 @@ class Distance(models.Model):
     distance = models.FloatField(default=0, blank=False)
 
     def __str__(self):
-    	return str(self.id) + ' house_name = ' + self.house_id.name + ' department_name = ' + self.department_id.name
+        return str(self.id) + ' house_name = ' + self.house_id.name + ' department_name = ' + self.department_id.name

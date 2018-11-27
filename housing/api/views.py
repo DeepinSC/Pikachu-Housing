@@ -74,7 +74,6 @@ class HouseViewSet(viewsets.ModelViewSet):
             basequery += " WHERE "
 
         sql = "housing_house.id IN (" + (basequery + " AND ".join(query_parts) % tuple(params)) + ")"
-        print(sql)
         house_queryset = House.objects.extra(where=[sql])
 
         has_liked = self.request.query_params.get('like', None)

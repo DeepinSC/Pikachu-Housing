@@ -16,7 +16,7 @@ class LikeViewSet(viewsets.ModelViewSet):
     pagination_class = LikePagination
     serializer_class = LikeSerializer
 
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         serializer = LikeSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
