@@ -59,6 +59,7 @@ export default {
   props: ['toggle'],
   created() {
     this.$store.dispatch('user/getUser')
+    this.$store.dispatch('department/getList')
   },
   components: {
     "LoginModal": () => import('./LoginModal.vue'),

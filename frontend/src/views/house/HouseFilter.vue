@@ -103,7 +103,7 @@ export default {
   created() {
     this.filter = this.getFilterFromURL(this.$router.history.current.query)
     this.$store.dispatch('provider/getList')
-    this.$store.dispatch('department/getList')
+
   },
   data: () => {
     return {

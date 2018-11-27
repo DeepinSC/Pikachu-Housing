@@ -44,6 +44,17 @@
       </v-list-tile-content>
     </v-list-tile>
 
+      <v-list-tile @click="jumpToWiki('https://wiki.illinois.edu/wiki/display/cs411sfa18/Pikachu')">
+      <v-list-tile-action>
+        <v-icon>person</v-icon>
+      </v-list-tile-action>
+      <v-list-tile-content>
+        <v-list-tile-title>
+          About Us
+        </v-list-tile-title>
+      </v-list-tile-content>
+    </v-list-tile>
+
     <v-spacer></v-spacer>
     <v-list-tile >
       <v-list-tile-action>
@@ -68,13 +79,15 @@ export default {
       items: [
         { icon: 'dashboard', text: 'Home', link: '/' },
         { icon: 'home', text: 'House', link: '/house/' },
-        { icon: 'person', text: 'About Us', link: '/about/' }
       ]
     }
   },
   methods: {
     toRoute (rname, rparams = {}, query = {}) {
       this.$router.push({path: rname, params: rparams, query: query})
+    },
+    jumpToWiki(e) {
+      window.location.href = e
     }
   },
   computed: {

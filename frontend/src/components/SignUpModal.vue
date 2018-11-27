@@ -66,7 +66,7 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex>
-                  <el-select v-model="input.department" class="mt-2"
+                  <el-select v-if="departments" v-model="input.department" class="mt-2"
                    filterable placeholder="Your department" no-data-text="No data" no-match-text="No matching">
                     <el-option
                       v-for="item in departments"
