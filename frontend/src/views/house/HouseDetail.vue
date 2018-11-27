@@ -140,7 +140,10 @@ export default {
       this.$store.dispatch('house/likeHouseObj',data).then(() => {
         house.has_liked = !house.has_liked
       })
-    }
+    },
+    jumpToUrl(url) {
+      window.location.href = url
+    },
   }
 }
 </script>
