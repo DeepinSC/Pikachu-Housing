@@ -68,6 +68,8 @@
                                 <span style="color: dodgerblue">{{item.closest_department.distance.toFixed(2)}} km</span>
                               </span>
                               <br>
+                            </div>
+                            <div>
                               <span>Location: {{item.location}}</span><br>
                               <span v-if="item.provider">Provider: <b>{{item.provider.name}}</b></span><br>
                               <span class="grey--text">{{item.description.slice(0,200)}}...</span>
