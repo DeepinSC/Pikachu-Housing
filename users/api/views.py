@@ -62,7 +62,7 @@ class UserViewset(viewsets.ModelViewSet):
         else:
             closest_house_query = 'housing_house.id = -1'
         cheap_house_query = 'price < 600'
-        hot_house_query = 'housing_house.id IN (SELECT housing_house.id FROM housing_house JOIN like_like ON housing_house.id = like_like.house_id_id GROUP BY housing_house.id HAVING count(*) >=3)'
+        hot_house_query = 'housing_house.id IN (SELECT housing_house.id FROM housing_house JOIN like_like ON housing_house.id = like_like.house_id_id AND like_like.has_liked=TRUE GROUP BY housing_house.id HAVING count(*) >=3)'
         hot_house_queryset = House.objects.extra(where=[hot_house_query])
         cheap_house_queryset = House.objects.extra(where=[cheap_house_query])
         closest_house_queryset = House.objects.extra(where=[closest_house_query])
