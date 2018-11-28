@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center>
-    <v-flex md8>
-      <v-container>
+    <v-flex md8 xs16>
+      <v-container fluid grid-list-md>
         <v-flex>
 
           <v-breadcrumbs>
@@ -34,7 +34,12 @@
 
           <v-divider></v-divider>
           <v-flex class="mt-2" xs>
-            <el-carousel :autoplay="false" trigger="click" height="700px" :interval="6000">
+            <el-carousel :autoplay="false" trigger="click" height="700px" :interval="6000" v-if="$vuetify.breakpoint.mdAndUp">
+              <el-carousel-item  v-for="(img,i) in houseDetail.imgs_url" :key="i">
+                <v-img :src="houseDetail.cover_img + img" style="margin-top: 10px"></v-img>
+              </el-carousel-item>
+            </el-carousel>
+            <el-carousel :autoplay="false" trigger="click" height="300px" :interval="6000" v-else>
               <el-carousel-item  v-for="(img,i) in houseDetail.imgs_url" :key="i">
                 <v-img :src="houseDetail.cover_img + img" style="margin-top: 10px"></v-img>
               </el-carousel-item>
@@ -42,16 +47,16 @@
           </v-flex>
 
           <v-divider></v-divider>
-          <div class="mt-2 mb-2">
-            <div>
+          <v-flex class="mt-2 mb-2">
+            <v-flex>
               <el-tag style="font-size: 15px">Price: {{houseDetail.price === invalidPrice ? "Unavailable" : houseDetail.price}}</el-tag>
-              <el-tag type="info"><span class="subtitle">Location: {{houseDetail.location}}</span></el-tag>
+              <el-tag type="info" v-show="$vuetify.breakpoint.mdAndUp"><span class="subtitle">Location: {{houseDetail.location}}</span></el-tag>
               <span v-if="houseDetail.closest_department">
                 <el-tag style="font-size: 15px" type="success"><span>Department: {{houseDetail.closest_department.name}}</span></el-tag>
                 <el-tag style="font-size: 15px" type="danger"><span>Distance: {{houseDetail.closest_department.distance.toFixed(2)}} km</span></el-tag>
               </span>
-            </div>
-          </div>
+            </v-flex>
+          </v-flex>
           <v-divider> </v-divider>
 
           <v-flex class="mt-4">

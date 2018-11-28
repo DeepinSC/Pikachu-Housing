@@ -5,7 +5,7 @@
       <v-container fluid grid-list-md>
 
         <v-layout row wrap justify-space-between>
-          <v-flex md8 xs12>
+          <v-flex md8 xs16>
           <el-carousel type="card">
               <el-carousel-item v-for="(item,i) in houses" :key="i" :src="item.cover_img">
                 <v-layout justify-center>
@@ -40,7 +40,7 @@
             <v-layout row wrap>
 
 
-              <v-flex v-if="houses && houses.length > 0" v-for="item in houses" v-bind="{ [`xs${item.flex}`]: true }" :key="item.id" xs12 md12>
+              <v-flex v-if="houses && houses.length > 0" v-for="item in houses" v-bind="{ [`xs${item.flex}`]: true }" :key="item.id" md12>
                 <v-hover>
                   <v-card class="mt-3" slot-scope="{ hover }" :class="`elevation-${hover ? 6 : 2}`">
                     <v-layout row>
@@ -75,24 +75,26 @@
 
                           </v-card-text>
                         <v-card-actions>
-                          <v-btn  flat color="green" :to="'/house/'+item.id"><v-icon>details</v-icon>Detail</v-btn>
-                          <div v-show="authenticated">
-                            <v-btn flat color="orange" @click="handleLike(item,userDetail)"><v-icon>{{item.has_liked ? "star" : "star_border"}}
-                            </v-icon>Likes: {{item.like_count}}</v-btn>
-                          </div>
-                          <div v-show="authenticated">
-                            <el-popover trigger="click" placement="top" v-model="item.popover">
-                              <p>Do you want to delete the house? (This operation is irrevocable)</p>
-                              <div style="text-align: right; margin: 0">
-                                <v-btn flat color="green" @click="item.popover = false">Cancel</v-btn>
-                                <v-btn flat color="red" @click="deleteHouse(item.id)">Delete</v-btn>
-                              </div>
-                              <v-btn flat color="red" slot="reference"><v-icon>close</v-icon>Delete</v-btn>
-                            </el-popover>
-                          </div>
-                          <div v-if="item.provider">
-                            <v-btn flat color="blue" @click="jumpToUrl(item.provider.url)"><v-icon>insert_link</v-icon>View site</v-btn>
-                          </div>
+                          <v-layout row wrap>
+                            <v-flex md2><v-btn  flat color="green" :to="'/house/'+item.id"><v-icon>details</v-icon>Detail</v-btn></v-flex>
+                            <v-flex v-show="authenticated" md2>
+                              <v-btn flat color="orange" @click="handleLike(item,userDetail)"><v-icon>{{item.has_liked ? "star" : "star_border"}}
+                              </v-icon>Likes: {{item.like_count}}</v-btn>
+                            </v-flex>
+                            <v-flex v-show="authenticated" md2>
+                              <el-popover trigger="click" placement="top" v-model="item.popover">
+                                <p>Do you want to delete the house? (This operation is irrevocable)</p>
+                                <v-flex style="text-align: right; margin: 0">
+                                  <v-btn flat color="green" @click="item.popover = false">Cancel</v-btn>
+                                  <v-btn flat color="red" @click="deleteHouse(item.id)">Delete</v-btn>
+                                </v-flex>
+                                <v-btn flat color="red" slot="reference"><v-icon>close</v-icon>Delete</v-btn>
+                              </el-popover>
+                            </v-flex>
+                            <v-flex v-if="item.provider" md2>
+                              <v-btn flat color="blue" @click="jumpToUrl(item.provider.url)"><v-icon>insert_link</v-icon>View site</v-btn>
+                            </v-flex>
+                          </v-layout>
 
                         </v-card-actions>
                       </v-flex>

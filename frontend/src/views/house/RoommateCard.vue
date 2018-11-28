@@ -16,7 +16,7 @@
     <v-divider light></v-divider>
     <v-card-actions class="pa-3">
       <v-btn color="orange" class="white--text" :href="'mailto:' + roommate.email">
-        <v-icon>email</v-icon>Contact him/her via email
+        <v-icon>email</v-icon>Contact him/her
       </v-btn>
     </v-card-actions>
   </v-card>
