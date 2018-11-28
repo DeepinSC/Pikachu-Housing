@@ -14,16 +14,7 @@
                 </v-layout>
               </el-carousel-item>
             </el-carousel>
-          </v-flex>
 
-          <v-flex md3 v-show="$vuetify.breakpoint.mdAndUp">
-            <div class="mr-3" style="position:fixed;">
-              <HouseSuggestionCard v-show="authenticated"></HouseSuggestionCard>
-              <RoommateCard v-show="authenticated"></RoommateCard>
-            </div>
-          </v-flex>
-
-          <v-flex md8>
             <v-layout row justify-space-between>
               <v-flex md3>
                 <h1>House list</h1>
@@ -45,9 +36,7 @@
               </v-flex>
               </v-layout>
             <v-divider></v-divider>
-          </v-flex>
 
-          <v-flex md8>
             <v-layout row wrap>
 
 
@@ -80,7 +69,7 @@
                               </span>
                               <br>
                               <span>Location: {{item.location}}</span><br>
-                              <span>Provider: <b>{{item.provider.name}}</b></span><br>
+                              <span v-if="item.provider">Provider: <b>{{item.provider.name}}</b></span><br>
                               <span class="grey--text">{{item.description.slice(0,200)}}...</span>
                             </div>
 
@@ -101,7 +90,7 @@
                               <v-btn flat color="red" slot="reference"><v-icon>close</v-icon>Delete</v-btn>
                             </el-popover>
                           </div>
-                          <div>
+                          <div v-if="item.provider">
                             <v-btn flat color="blue" @click="jumpToUrl(item.provider.url)"><v-icon>insert_link</v-icon>View site</v-btn>
                           </div>
 
@@ -121,6 +110,13 @@
                 </v-layout>
               </v-flex>
             </v-layout>
+          </v-flex>
+
+           <v-flex md3 v-show="$vuetify.breakpoint.mdAndUp">
+            <div class="mr-3">
+              <HouseSuggestionCard v-show="authenticated"></HouseSuggestionCard>
+              <RoommateCard v-show="authenticated"></RoommateCard>
+            </div>
           </v-flex>
 
         </v-layout>
@@ -192,7 +188,8 @@ export default {
           message: "Your chosen house has been deleted."
         })
       })
-      this.$router.push("/")
+      this.$router.push("/house/")
+      window.location.reload()
     },
     toRoute (rname, rparams = {}, query = {}) {
       this.$router.push({path: rname, params: rparams, query: query, replace:true})

@@ -58,7 +58,7 @@
             <div class="description-font" v-html="markdownContent(houseDetail.description)" id="mdeditor"></div>
             <v-divider></v-divider>
           </v-flex>
-          <v-flex class="mt-4">
+          <v-flex class="mt-4" v-if="houseDetail.provider">
             <p class="description-font">Actions: </p>
             <v-btn  class="white--text yellow darken-2" @click="jumpToUrl(houseDetail.provider.url)">
               <v-icon>insert_link</v-icon>
@@ -80,7 +80,7 @@
 
 
     <v-flex md3 v-show="$vuetify.breakpoint.mdAndUp">
-      <div class="mr-3 mt-4" style="position:fixed;">
+      <div class="mr-4 mt-4">
         <HouseSuggestionCard></HouseSuggestionCard>
         <RoommateCard></RoommateCard>
       </div>

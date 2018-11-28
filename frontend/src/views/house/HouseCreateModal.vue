@@ -140,7 +140,7 @@ export default {
           type: "success",
           message: "You have created a new house."
         })
-        this.$router.push("/")
+        window.location.reload()
       })
     }
   }

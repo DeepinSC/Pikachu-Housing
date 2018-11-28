@@ -11,7 +11,7 @@ class HouseSerializer(serializers.ModelSerializer):
     closest_department = serializers.SerializerMethodField()
     like_count = serializers.SerializerMethodField()
     has_liked = serializers.SerializerMethodField()
-    provider = ProviderSerializer()
+    provider = ProviderSerializer(required=False, allow_null=True)
 
     def get_closest_department(self, obj):
         department_set = Department.objects.raw('SELECT * FROM department_department WHERE id = %s', [int(obj.closest_department_float)])

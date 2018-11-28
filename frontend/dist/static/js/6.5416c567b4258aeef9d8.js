@@ -1,0 +1,2 @@
+webpackJsonp([6],{aVNV:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r={render:function(){var e=this.$createElement;return(this._self._c||e)("router-view",{key:this.key})},staticRenderFns:[]};var u=n("VU/8")({name:"HouseLayout",computed:{key:function(){return this.$route.fullPath}}},r,!1,function(e){n("c9G3")},"data-v-56a85bf2",null);t.default=u.exports},c9G3:function(e,t){}});
+//# sourceMappingURL=6.5416c567b4258aeef9d8.js.map
