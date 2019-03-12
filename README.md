@@ -53,5 +53,7 @@ git fork and clone!
 
 ## Postgres setting
 * /var/lib/pgsql/*/data/pg_hba.conf
-* host    all    all    0.0.0.0/0    md5 
+* host    all    all    0.0.0.0/0    trust
+* sudo chmod -R 700 /var/lib/pgsql92
+* sudo ./etc/init.d/postgres92 restart
 
