@@ -51,4 +51,7 @@ git fork and clone!
 * Before submission，`cd frontend` , execute `npm run build` to pack your code；
 * Pull request if you want to make contribution;
 
+## Postgres setting
+* /var/lib/pgsql/*/data/pg_hba.conf
+* host    all    all    0.0.0.0/0    md5 
 
